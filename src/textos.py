@@ -11,7 +11,7 @@ intro = """
         ****    É Tetris, mas melhor.    ****
 """
 
-opcoes = """
+menu_principal = """
 Opções do Jogo:
 - <i> iniciar uma nova partida
 - <c> carregar uma partida gravada e continuá-la

@@ -10,7 +10,7 @@ class Jogo:
 
 
     def mostrar_opcoes(self):
-        print(txt.opcoes)
+        print(txt.menu_principal)
         opcoes_validas = ['i', 'c', 'p', 's']
         opcao = input_da_lista("Digite a opção desejada: ", opcoes_validas)
 
