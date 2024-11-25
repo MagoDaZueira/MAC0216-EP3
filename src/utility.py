@@ -4,6 +4,7 @@ Módulo utilitário
 Contém algumas funções genéricas que auxiliam o resto do programa.
 """
 
+
 def input_int(prompt: str) -> int:
     """Função que pede um input até que o usuário digite um inteiro.
 

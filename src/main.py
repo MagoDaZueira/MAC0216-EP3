@@ -21,9 +21,6 @@ class Jogo:
 
             partida = Partida(nome, linhas, colunas)
 
-            partida.mostrar_tela()
-
-
 
 if __name__ == "__main__":
     jogo = Jogo()
