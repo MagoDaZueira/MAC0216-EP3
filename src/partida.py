@@ -8,18 +8,18 @@ class Partida:
         # Desenha o layout inicial
         self.grid_draw = [
             [
-                '_' if i == 0 or i == linhas - 1 else
-                '|' if j == 0 or j == colunas - 1 else ' '
-                for j in range(colunas)
+                '_' if i == 0 or i == linhas + 1 else
+                '|' if j == 0 or j == colunas + 1 else ' '
+                for j in range(colunas + 2)
             ]
-            for i in range(linhas)
+            for i in range(linhas + 2)
         ]
 
         # Bordas arredondadas
         self.grid_draw[0][0]                = ' '
-        self.grid_draw[linhas-1][0]         = ' '
-        self.grid_draw[0][colunas-1]        = ' '
-        self.grid_draw[linhas-1][colunas-1] = ' '
+        self.grid_draw[linhas+1][0]         = ' '
+        self.grid_draw[0][colunas+1]        = ' '
+        self.grid_draw[linhas+1][colunas+1] = ' '
 
         self.mostrar_tela()
 
