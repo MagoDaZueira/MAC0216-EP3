@@ -11,6 +11,22 @@ class Peca:
     def gerar_peca_aleatoria(centro):
         tipos_de_pecas = [PecaO, PecaI, PecaL, PecaJ, PecaS, PecaZ, PecaT]
         return random.choice(tipos_de_pecas)(centro)
+    
+    def mover(self, dx, dy, grid):
+        pode_mover = True
+        for bloco in self.blocos:
+            new_x = round(self.x + bloco[0]) + dx
+            new_y = round(self.y + bloco[1]) + dy
+
+            print(new_x, new_y)
+
+            if grid[new_y][new_x] != ' ':
+                pode_mover = False
+            
+        if pode_mover:
+            self.x += dx
+            self.y += dy
+
 
 
 
