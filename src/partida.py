@@ -17,9 +17,6 @@ class Partida:
         # Cria uma peça e a seleciona como atual
         self.peca_ativa: Peca = Peca.gerar_peca_aleatoria(ceil(colunas / 2))
 
-        self.desenhar_peca()
-        self.mostrar_tela()
-
         self.executar_jogo()
 
 
@@ -48,7 +45,7 @@ class Partida:
     def mostrar_tela(self):
         """Imprime os elementos presentes no jogo,
         baseado na matriz self.grid_draw"""
-        # os.system('cls||clear')
+        os.system('cls||clear')
         for linha in self.grid_draw:
             for caractere in linha:
                 print(caractere, end=" ")
@@ -63,14 +60,42 @@ class Partida:
             self.grid_draw[y][x] = self.peca_ativa.caractere
             
     
+    def encostou_no_chao(self):
+        for bloco in self.peca_ativa.blocos:
+            x = round(self.peca_ativa.x + bloco[0])
+            y_abaixo = round(self.peca_ativa.y + bloco[1]) + 1
+
+            if self.grid_fixo[y_abaixo][x] != ' ':
+                return True
+            
+        return False
+    
+
+    def encaixar_peca(self):
+        for bloco in self.peca_ativa.blocos:
+            x = round(self.peca_ativa.x + bloco[0])
+            y = round(self.peca_ativa.y + bloco[1])
+            self.grid_fixo[y][x] = self.peca_ativa.caractere
+
+        self.peca_ativa = Peca.gerar_peca_aleatoria(ceil(self.colunas / 2))
+
+
+
     def executar_jogo(self):
+        self.desenhar_peca()
+        self.mostrar_tela()
+
         valores = {"a": (-1, 0), "d": (1, 0), "s": (0, 1)}
         teclas = valores.keys()
+
         while True:
             tecla = readkey()
             if tecla in teclas:
-                os.system('cls||clear')
+                
                 self.peca_ativa.mover(valores[tecla][0], valores[tecla][1], self.grid_fixo)
+
+                if self.encostou_no_chao():
+                    self.encaixar_peca()
 
                 self.desenhar_peca()
                 self.mostrar_tela()
