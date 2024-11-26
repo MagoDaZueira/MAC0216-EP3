@@ -18,3 +18,8 @@ Opções do Jogo:
 - <p> ver as 10 melhores pontuações
 - <s> sair do jogo
 """
+
+menu_ingame = """Teclas do jogo:
+<a> move esquerda | <d> move direita | <s> move baixo
+← rotaciona esquerda | → rotaciona direita
+<q> sai da partida, <g> grava e sai da partida"""
