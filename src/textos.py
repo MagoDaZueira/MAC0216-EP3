@@ -11,6 +11,25 @@ intro = """
         ****    É Tetris, mas melhor.    ****
 """
 
+despedida = """
+---------------------------------------------------------
+---------------------------------------------------------
+
+Até a próxima, o TEXTRIS sentirá sua falta.
+Jogue Tetris nesse tempo, e quando ficar bom mesmo volte.
+
+         ████████╗████████╗
+         ████████║████████║
+         ████████║████████║
+         ████████║████████║
+         ╚═══════╝╚═══════╝
+████████╗████████╗
+████████║████████║
+████████║████████║
+████████║████████║
+╚═══════╝╚═══════╝
+"""
+
 menu_principal = """
 Opções do Jogo:
 - <i> iniciar uma nova partida
@@ -22,4 +41,4 @@ Opções do Jogo:
 menu_ingame = """Teclas do jogo:
 <a> move esquerda | <d> move direita | <s> move baixo
 ← rotaciona esquerda | → rotaciona direita
-<q> sai da partida, <g> grava e sai da partida"""
+<k> sai da partida, <g> grava e sai da partida"""

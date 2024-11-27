@@ -1,6 +1,5 @@
 from peca import Peca
 from math import ceil
-from readchar import readkey, key
 import os
 import textos as txt
 
@@ -20,8 +19,6 @@ class Partida:
 
         # Cria uma peça e a seleciona como atual
         self.peca_ativa: Peca = Peca.gerar_peca_aleatoria(ceil(colunas / 2))
-
-        self.executar_jogo()
 
 
     def preparar_grid(self):
@@ -119,35 +116,19 @@ class Partida:
                 self.grid_fixo[1][j] = ' '
 
 
-    def executar_jogo(self):
+    def mover_peca(self, direcao: tuple[int]):
+        self.peca_ativa.mover(direcao[0], direcao[1], self.grid_fixo)
+        self.update()
+
+    def rotacionar_peca_esquerda(self):
+        self.peca_ativa.rotacionar_esquerda(self.grid_fixo)
+        self.update()
+
+    def rotacionar_peca_direita(self):
+        self.peca_ativa.rotacionar_direita(self.grid_fixo)
+        self.update()
+
+    def update(self):
+        if self.encostou_no_chao():
+            self.encaixar_peca()
         self.mostrar_tela()
-
-        valores_mov = {"a": (-1, 0), "d": (1, 0), "s": (0, 1)}
-        teclas_mov = valores_mov.keys()
-
-        while True:
-            tecla = readkey()
-            
-            # Movimento para esquerda, direita ou baixo
-            if tecla in teclas_mov:
-                self.peca_ativa.mover(valores_mov[tecla][0], valores_mov[tecla][1], self.grid_fixo)
-                if self.encostou_no_chao():
-                    self.encaixar_peca()
-                self.mostrar_tela()
-            
-            # Rotação para a esquerda
-            elif tecla == key.LEFT:
-                self.peca_ativa.rotacionar_esquerda(self.grid_fixo)
-                if self.encostou_no_chao():
-                    self.encaixar_peca()
-                self.mostrar_tela()
-
-            # Rotação para a direita
-            elif tecla == key.RIGHT:
-                self.peca_ativa.rotacionar_direita(self.grid_fixo)
-                if self.encostou_no_chao():
-                    self.encaixar_peca()
-                self.mostrar_tela()
-
-
-            
