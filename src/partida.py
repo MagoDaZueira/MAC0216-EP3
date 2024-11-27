@@ -122,18 +122,31 @@ class Partida:
     def executar_jogo(self):
         self.mostrar_tela()
 
-        valores = {"a": (-1, 0), "d": (1, 0), "s": (0, 1)}
-        teclas = valores.keys()
+        valores_mov = {"a": (-1, 0), "d": (1, 0), "s": (0, 1)}
+        teclas_mov = valores_mov.keys()
 
         while True:
             tecla = readkey()
-            if tecla in teclas:
-
-                self.peca_ativa.mover(valores[tecla][0], valores[tecla][1], self.grid_fixo)
-
+            
+            # Movimento para esquerda, direita ou baixo
+            if tecla in teclas_mov:
+                self.peca_ativa.mover(valores_mov[tecla][0], valores_mov[tecla][1], self.grid_fixo)
                 if self.encostou_no_chao():
                     self.encaixar_peca()
+                self.mostrar_tela()
+            
+            # Rotação para a esquerda
+            elif tecla == key.LEFT:
+                self.peca_ativa.rotacionar_esquerda(self.grid_fixo)
+                if self.encostou_no_chao():
+                    self.encaixar_peca()
+                self.mostrar_tela()
 
+            # Rotação para a direita
+            elif tecla == key.RIGHT:
+                self.peca_ativa.rotacionar_direita(self.grid_fixo)
+                if self.encostou_no_chao():
+                    self.encaixar_peca()
                 self.mostrar_tela()
 
 
