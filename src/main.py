@@ -15,27 +15,28 @@ class Jogo:
 
 
     def mostrar_opcoes(self):
-        print(txt.menu_principal)
-        opcoes_validas = ['i', 'c', 'p', 's']
-        opcao = input_da_lista("Digite a opção desejada: ", opcoes_validas)
+        while True:
+            print(txt.menu_principal)
+            opcoes_validas = ['i', 'c', 'p', 's']
+            opcao = input_da_lista("Digite a opção desejada: ", opcoes_validas)
 
-        if opcao == 'i':
-            nome = input("Digite o nome do jogador: ")
-            linhas = input_int("Digite o número de linhas da tela do jogo: ")
-            colunas = input_int("Digite o número de colunas da tela do jogo: ")
+            if opcao == 'i':
+                nome = input("Digite o nome do jogador: ")
+                linhas = input_int("Digite o número de linhas da tela do jogo: ")
+                colunas = input_int("Digite o número de colunas da tela do jogo: ")
 
-            # Inicia a partida
-            self.partida_ativa = Partida(nome, linhas, colunas)
-            self.executar_jogo()
-        
-        elif opcao == 's':
-            self.sair()
+                # Inicia a partida
+                self.partida_ativa = Partida(nome, linhas, colunas)
+                self.executar_jogo()
+            
+            elif opcao == 's':
+                self.sair()
 
-        elif opcao == 'c':
-            save_escolhido = self.mostrar_saves()
-            with open(f"./saves/{save_escolhido}.pkl", "rb") as arquivo:
-                self.partida_ativa = pickle.load(arquivo)
-            self.executar_jogo()
+            elif opcao == 'c':
+                save_escolhido = self.mostrar_saves()
+                with open(f"./saves/{save_escolhido}.pkl", "rb") as arquivo:
+                    self.partida_ativa = pickle.load(arquivo)
+                self.executar_jogo()
 
 
     def mostrar_saves(self):
@@ -56,6 +57,7 @@ class Jogo:
 
     
     def executar_jogo(self):
+        running = True
         """Contém o loop principal do jogo."""
 
         # Mostra a tela ao iniciar o jogo
@@ -65,7 +67,7 @@ class Jogo:
         valores_mov = {"a": (-1, 0), "d": (1, 0), "s": (0, 1)}
         teclas_mov = valores_mov.keys()
 
-        while True:
+        while running:
             tecla = readkey() # Input do jogador
             
             # Movimento para esquerda, direita ou baixo
@@ -81,20 +83,19 @@ class Jogo:
                 self.partida_ativa.rotacionar_peca_direita()
 
             elif tecla == 'k':
-                self.sair()
+                running = False
             elif tecla == 'g':
                 os.makedirs('./saves', exist_ok=True)
                 data = data_atual()
                 with open(f'./saves/{self.partida_ativa.nome}_{data}.pkl', 'wb') as arquivo:
                     pickle.dump(self.partida_ativa, arquivo)
                 print(txt.texto_ao_salvar)
-                sys.exit()
+                running = False
 
 
     
     def sair(self):
-        print(txt.despedida)
-        sys.exit()
+        pass
 
 
 if __name__ == "__main__":
