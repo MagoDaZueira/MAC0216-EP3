@@ -3,6 +3,8 @@ from partida import Partida
 from readchar import readkey, key
 from utility import *
 import sys
+import os
+import pickle
 
 class Jogo:
 
@@ -28,6 +30,29 @@ class Jogo:
         
         elif opcao == 's':
             self.sair()
+
+        elif opcao == 'c':
+            save_escolhido = self.mostrar_saves()
+            with open(f"./saves/{save_escolhido}.pkl", "rb") as arquivo:
+                self.partida_ativa = pickle.load(arquivo)
+            self.executar_jogo()
+
+
+    def mostrar_saves(self):
+        itens = os.listdir('./saves')
+
+        arquivos = [item for item in itens if os.path.isfile(os.path.join('./saves', item))]
+
+        print("Escolha o seu save, não desista:")
+        for arquivo in arquivos:
+            print(arquivo[:-4])
+        
+        while True:
+            save_escolhido = input("Digite o nome do save desejado: ")
+            if f'{save_escolhido}.pkl' in arquivos:
+                return save_escolhido
+            else:
+                print('Esse save não existe não, tente novamente')
 
     
     def executar_jogo(self):
@@ -57,6 +82,14 @@ class Jogo:
 
             elif tecla == 'k':
                 self.sair()
+            elif tecla == 'g':
+                os.makedirs('./saves', exist_ok=True)
+                data = data_atual()
+                with open(f'./saves/{self.partida_ativa.nome}_{data}.pkl', 'wb') as arquivo:
+                    pickle.dump(self.partida_ativa, arquivo)
+                print(txt.texto_ao_salvar)
+                sys.exit()
+
 
     
     def sair(self):

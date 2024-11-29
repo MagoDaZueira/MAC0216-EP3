@@ -4,6 +4,8 @@ Módulo utilitário
 Contém algumas funções genéricas que auxiliam o resto do programa.
 """
 
+from datetime import datetime
+
 
 def input_int(prompt: str) -> int:
     """Função que pede um input até que o usuário digite um inteiro.
@@ -38,3 +40,9 @@ def input_da_lista(prompt: str, lista: list) -> any:
             return valor
         else:
             print("Valor inválido. Tente novamente.")
+
+def data_atual():
+    data = datetime.now()
+
+    # Formatar a data e hora no formato desejado
+    return data.strftime("%d-%m-%Y_%Hh%Mm%Ss")
