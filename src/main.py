@@ -44,13 +44,13 @@ class Jogo:
         arquivos = [item for item in itens if os.path.isfile(os.path.join('./saves', item))]
 
         print("Escolha o seu save, não desista:")
-        for arquivo in arquivos:
-            print(arquivo[:-4])
+        for i, arquivo in enumerate(arquivos, start=1):
+            print(f'{i}) {arquivo[:-4]}')
         
         while True:
-            save_escolhido = input("Digite o nome do save desejado: ")
-            if f'{save_escolhido}.pkl' in arquivos:
-                return save_escolhido
+            i = int(input("Digite o nome do save desejado: "))
+            if  i <= len(arquivos):
+                return arquivos[i-1][:-4]
             else:
                 print('Esse save não existe não, tente novamente')
 
