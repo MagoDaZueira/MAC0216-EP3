@@ -82,8 +82,10 @@ class Peca:
         correcao = self.verificar_rotacao(novos_blocos, grid)
 
         # Se há algum ajuste válido, atualiza posição dos blocos
-        if len(correcao):
-            self.blocos = [(x, y) for (x, y) in correcao]
+        if correcao != None:
+            self.blocos = [(x, y) for (x, y) in novos_blocos]
+            self.x += correcao[0]
+            self.y += correcao[1]
 
             
     def rotacionar_esquerda(self, grid: list[list[str]]) -> None:
@@ -103,11 +105,13 @@ class Peca:
         correcao = self.verificar_rotacao(novos_blocos, grid)
 
         # Se há algum ajuste válido, atualiza posição dos blocos
-        if len(correcao):
-            self.blocos = [(x, y) for (x, y) in correcao]
+        if correcao != None:
+            self.blocos = [(x, y) for (x, y) in novos_blocos]
+            self.x += correcao[0]
+            self.y += correcao[1]
 
     
-    def verificar_rotacao(self, posicoes: list[tuple], grid: list[list[str]]) -> list:
+    def verificar_rotacao(self, posicoes: list[tuple], grid: list[list[str]]) -> tuple:
         """Testa se a rotação é possível, usando uma lista de offsets
         para verificar se, caso a rotação padrão não seja possível,
         algum pequeno deslocamento a torna válida.
@@ -117,32 +121,34 @@ class Peca:
         - - grid - Indica quais posições estão ocupadas, e quais livres.
         As posições livres devem ser dadas por ' '.
 
-        Retorna uma lista de tuplas com posições de blocos válidas,
-        caso haja algum offset possível.
-        Caso não exista offset válido, retorna uma lista vazia.
-        
+        Retorna uma tupla com um offset que torne a rotação válida, caso possível
+        Caso não exista offset válido, retorna None.
         """
+
         for offset in self.offsets_rotacao:
             offset_valido = True
+            # Novas posições relativas dos blocos, somando offset
             novas_pos = [(pos[0] + offset[0], pos[1] + offset[1]) for pos in posicoes]
 
             for bloco in novas_pos:
-                # Posições dos blocos no grid
+                # Posição dos blocos com offset no grid
                 new_x = round(self.x + bloco[0])
                 new_y = round(self.y + bloco[1])
 
-                # Garante que não tenha saído do tabuleiro
-                if new_x >= len(grid[0]) or new_y >= len(grid):
-                    pode_mover = False
-
-                # Verifica se posição com offset é válida
-                elif grid[new_y][new_x] != ' ':
+                # Fora dos limites da matriz
+                if new_x < 0 or new_x >= len(grid[0]) or new_y < 0 or new_y >= len(grid):
                     offset_valido = False
+                    break
+
+                # Colisão com algum objeto
+                if grid[new_y][new_x] != ' ':
+                    offset_valido = False
+                    break
             
             if offset_valido:
-                return novas_pos
+                return offset
         
-        return []
+        return None
 
 
 ##########################################################

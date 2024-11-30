@@ -68,7 +68,6 @@ class Jogo:
                 self.partida_ativa.rotacionar_peca_direita()
 
             elif tecla == 'k':
-                rank.atualizar_ranking(self.partida_ativa.nome, self.partida_ativa.pontuacao)
                 break
 
             elif tecla == 'g':
