@@ -163,6 +163,10 @@ class PecaI(Peca):
                             pos_x + 0.5, 1.5,
                             '$')
         
+        # A peça I precisa de mais verificações na rotação, muito oblonga
+        self.offsets_rotacao.append((-2, 0))
+        self.offsets_rotacao.append((2, 0))
+        
 class PecaL(Peca):
     def __init__(self, pos_x):
         super().__init__([                   (1, -1),

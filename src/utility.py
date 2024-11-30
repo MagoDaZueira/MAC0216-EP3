@@ -7,19 +7,44 @@ Contém algumas funções genéricas que auxiliam o resto do programa.
 from datetime import datetime
 
 
-def input_int(prompt: str) -> int:
-    """Função que pede um input até que o usuário digite um inteiro.
+def input_int(prompt: str, low: int = None, up: int = None) -> int:
+    """Função que pede um input até que o usuário digite um inteiro
+    dentro dos limites especificados.
 
     - Parâmetro:
-    - - prompt - Mensagem que pede input ao usuário
+    - - prompt - Mensagem que pede input ao usuário.
+    - - low - Limite inferior para o número. None por padrão.
+    - - up - Limite superior para o número. None por padrão.
 
     Retorna um inteiro, o último valor digitado pelo usuário"""
 
     while True:
         valor = input(prompt)
+        valido = True
+
         try:
             # Tenta converter para inteiro
-            return int(valor)
+            valor = int(valor)
+
+            # Verifica se está nos limites
+            if low != None:
+                if valor < low:
+                    valido = False
+            if up != None:
+                if valor > up:
+                    valido = False
+
+            if valido:
+                return valor
+            else:
+                if low == None:
+                    print(f'Valor inválido. Digite um número até {up}.')
+                elif up == None:
+                    print(f'Valor inválido. Digite um número a partir de {low}.')
+                else:
+                    print(f'Valor inválido. Digite um número entre {low} e {up}.')
+
+                    
         except ValueError:
             # Caso não seja um número
             print("Valor inválido. Digite um número inteiro.")

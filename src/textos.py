@@ -13,6 +13,7 @@ intro = """
 
 despedida = """
 ---------------------------------------------------------
+------------------------- ADEUS -------------------------
 ---------------------------------------------------------
 
 Até a próxima, o TEXTRIS sentirá sua falta.
@@ -59,3 +60,10 @@ menu_ingame = """Teclas do jogo:
 <a> move esquerda | <d> move direita | <s> move baixo
 ← rotaciona esquerda | → rotaciona direita
 <k> sai da partida, <g> grava e sai da partida"""
+
+
+ranking = """
+---------------------------------------------------------
+----------------- 10 MELHORES PONTUAÇÕES ----------------
+---------------------------------------------------------
+"""

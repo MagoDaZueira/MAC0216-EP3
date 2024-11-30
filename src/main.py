@@ -2,6 +2,8 @@ import textos as txt
 from partida import Partida
 from readchar import readkey, key
 from utility import *
+import ranking_manager as rank
+import save_manager as save
 import sys
 import os
 import pickle
@@ -31,38 +33,14 @@ class Jogo:
             self.sair()
 
         elif opcao == 'c':
-            save_escolhido = self.mostrar_saves()
+            save_escolhido = save.mostrar_saves()
             with open(f"./saves/{save_escolhido}.pkl", "rb") as arquivo:
                 self.partida_ativa = pickle.load(arquivo)
             self.executar_jogo()
+
         elif opcao == 'p':
-            os.makedirs('./ranking', exist_ok=True)
-            try:
-                with open(f'./ranking/ranking.txt', 'r') as arquivo:
-                    linhas = arquivo.readlines()
-                    for linha in linhas:
-                        print(linha)
-            except FileNotFoundError:
-                with open('./ranking/ranking.txt', 'w') as arquivo:
-                    print('Ainda não há pontuações registradas, se esforce mais')
+            rank.mostrar_ranking()
                 
-
-    def mostrar_saves(self):
-        itens = os.listdir('./saves')
-
-        arquivos = [item for item in itens if os.path.isfile(os.path.join('./saves', item))]
-
-        print("Escolha o seu save, não desista:")
-        for i, arquivo in enumerate(arquivos, start=1):
-            print(f'{i}) {arquivo[:-4]}')
-        
-        while True:
-            i = input_int("Digite o nome do save desejado: ")
-            if  i <= len(arquivos):
-                return arquivos[i-1][:-4]
-            else:
-                print('Esse save não existe não, tente novamente')
-
     
     def executar_jogo(self):
         """Contém o loop principal do jogo."""
@@ -93,42 +71,11 @@ class Jogo:
                 break
 
             elif tecla == 'g':
-                os.makedirs('./saves', exist_ok=True)
-                data = data_atual()
-                with open(f'./saves/{self.partida_ativa.nome}_{data}.pkl', 'wb') as arquivo:
-                    pickle.dump(self.partida_ativa, arquivo)
-                print(txt.texto_ao_salvar)
-
-                self.atualizar_ranking()
+                save.salvar_partida(self.partida_ativa)
                 break
 
         if self.partida_ativa.game_over:
-            self.atualizar_ranking()
-
-
-
-    def atualizar_ranking(self):
-        os.makedirs('./ranking', exist_ok=True)
-        if not(os.path.exists('./ranking/ranking.txt')):
-            with open(f'./ranking/ranking.txt', 'w') as arquivo:
-                pass
-            
-        with open('./ranking/ranking.txt', 'r') as arquivo:
-            linhas = arquivo.readlines()
-            print(linhas)
-            if len(linhas) < 10:
-                    linhas.append(f"{self.partida_ativa.nome} {self.partida_ativa.pontuacao}\n")
-            else:
-                for i, linha in enumerate(linhas):
-                    linha_separada = linha.split()
-                    if self.partida_ativa.pontuacao > int(linha_separada[1]):
-                        linhas[i] = f"{self.partida_ativa.nome} {self.partida_ativa.pontuacao}"
-                        break
-        
-        linhas = sorted(linhas, key=lambda linha: int(linha.strip().split()[1]), reverse=True)
-                
-        with open(f'./ranking/ranking.txt', 'w') as arquivo: 
-            arquivo.writelines(linhas)
+            rank.atualizar_ranking(self.partida_ativa.nome, self.partida_ativa.pontuacao)
             
 
     def sair(self):
