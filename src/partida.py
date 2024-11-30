@@ -13,6 +13,9 @@ class Partida:
         self.pontuacao = 0
         self.linhas_para_pontuacao = [0, 1, 3, 5, 8]
 
+        self.rodando = True
+        self.game_over = False
+
         # Desenha o layout inicial
         self.grid_fixo = self.preparar_grid()
         self.grid_draw = [row[:] for row in self.grid_fixo] # Copia grid_fixo
@@ -56,6 +59,16 @@ class Partida:
         print(f'\nPontuação: {self.pontuacao}')
         print(txt.menu_ingame)
 
+    def mostrar_gameover(self):
+        self.desenhar_peca()
+        os.system('cls||clear')
+        for linha in self.grid_draw:
+            for caractere in linha:
+                print(caractere, end=" ")
+            print()
+
+        print(f'Fim da partida!')
+        print(f'Pontuação final: {self.pontuacao}')
 
     def desenhar_peca(self):
         # Limpa a peça anterior
@@ -131,4 +144,19 @@ class Partida:
     def update(self):
         if self.encostou_no_chao():
             self.encaixar_peca()
-        self.mostrar_tela()
+            if self.pode_spawnar():
+                self.mostrar_tela()
+            else:
+                self.game_over = True
+                self.mostrar_gameover()
+        else:
+            self.mostrar_tela()
+
+
+    def pode_spawnar(self):
+        for bloco in self.peca_ativa.blocos:
+            x = round(self.peca_ativa.x + bloco[0])
+            y = round(self.peca_ativa.y + bloco[1])
+            if self.grid_fixo[y][x] != ' ':
+                return False
+        return True

@@ -32,7 +32,7 @@ class Peca:
         - - centro_x - Indica a posição horizontal do grid onde
         a peça deve surgir.
 
-        Não retorna valores
+        Retorna um objeto da classe Peca
         """
 
         tipos_de_pecas = [PecaO, PecaI, PecaL, PecaJ, PecaS, PecaZ, PecaT]

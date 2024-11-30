@@ -10,46 +10,41 @@ class Jogo:
 
     def __init__(self):
         print(txt.intro)
-        self.mostrar_opcoes()
         self.partida_ativa = None
 
 
     def mostrar_opcoes(self):
-        while True:
-            print(txt.menu_principal)
-            opcoes_validas = ['i', 'c', 'p', 's']
-            opcao = input_da_lista("Digite a opção desejada: ", opcoes_validas)
+        print(txt.menu_principal)
+        opcoes_validas = ['i', 'c', 'p', 's']
+        opcao = input_da_lista("Digite a opção desejada: ", opcoes_validas)
 
-            if opcao == 'i':
-                nome = input("Digite o nome do jogador: ")
-                linhas = input_int("Digite o número de linhas da tela do jogo: ")
-                colunas = input_int("Digite o número de colunas da tela do jogo: ")
+        if opcao == 'i':
+            nome = input("Digite o nome do jogador: ")
+            linhas = input_int("Digite o número de linhas da tela do jogo: ")
+            colunas = input_int("Digite o número de colunas da tela do jogo: ")
 
-                # Inicia a partida
-                self.partida_ativa = Partida(nome, linhas, colunas)
-                self.executar_jogo()
+            # Inicia a partida
+            self.partida_ativa = Partida(nome, linhas, colunas)
+            self.executar_jogo()
             
-            elif opcao == 's':
-                self.sair()
+        elif opcao == 's':
+            self.sair()
 
-            elif opcao == 'c':
-                save_escolhido = self.mostrar_saves()
-                with open(f"./saves/{save_escolhido}.pkl", "rb") as arquivo:
-                    self.partida_ativa = pickle.load(arquivo)
-                self.executar_jogo()
-            elif opcao == 'p':
-                os.makedirs('./ranking', exist_ok=True)
-                try:
-                    with open(f'./ranking/ranking.txt', 'r') as arquivo:
-                        linhas = arquivo.readlines()
-                        for linha in linhas:
-                            print(linha)
-                except FileNotFoundError:
-                    with open('./ranking/ranking.txt', 'w') as arquivo:
-                        print('Ainda não há pontuações registradas, se esforce mais')
-
-
-
+        elif opcao == 'c':
+            save_escolhido = self.mostrar_saves()
+            with open(f"./saves/{save_escolhido}.pkl", "rb") as arquivo:
+                self.partida_ativa = pickle.load(arquivo)
+            self.executar_jogo()
+        elif opcao == 'p':
+            os.makedirs('./ranking', exist_ok=True)
+            try:
+                with open(f'./ranking/ranking.txt', 'r') as arquivo:
+                    linhas = arquivo.readlines()
+                    for linha in linhas:
+                        print(linha)
+            except FileNotFoundError:
+                with open('./ranking/ranking.txt', 'w') as arquivo:
+                    print('Ainda não há pontuações registradas, se esforce mais')
                 
 
     def mostrar_saves(self):
@@ -62,7 +57,7 @@ class Jogo:
             print(f'{i}) {arquivo[:-4]}')
         
         while True:
-            i = int(input("Digite o nome do save desejado: "))
+            i = input_int("Digite o nome do save desejado: ")
             if  i <= len(arquivos):
                 return arquivos[i-1][:-4]
             else:
@@ -70,7 +65,6 @@ class Jogo:
 
     
     def executar_jogo(self):
-        running = True
         """Contém o loop principal do jogo."""
 
         # Mostra a tela ao iniciar o jogo
@@ -80,7 +74,7 @@ class Jogo:
         valores_mov = {"a": (-1, 0), "d": (1, 0), "s": (0, 1)}
         teclas_mov = valores_mov.keys()
 
-        while running:
+        while not self.partida_ativa.game_over:
             tecla = readkey() # Input do jogador
             
             # Movimento para esquerda, direita ou baixo
@@ -96,8 +90,7 @@ class Jogo:
                 self.partida_ativa.rotacionar_peca_direita()
 
             elif tecla == 'k':
-                self.atualizar_ranking()
-                running = False
+                break
 
             elif tecla == 'g':
                 os.makedirs('./saves', exist_ok=True)
@@ -107,7 +100,11 @@ class Jogo:
                 print(txt.texto_ao_salvar)
 
                 self.atualizar_ranking()
-                running = False
+                break
+
+        if self.partida_ativa.game_over:
+            self.atualizar_ranking()
+
 
 
     def atualizar_ranking(self):
@@ -141,3 +138,5 @@ class Jogo:
 
 if __name__ == "__main__":
     jogo = Jogo()
+    while True:
+        jogo.mostrar_opcoes()
