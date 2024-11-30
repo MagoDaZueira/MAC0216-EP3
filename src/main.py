@@ -37,7 +37,20 @@ class Jogo:
                 with open(f"./saves/{save_escolhido}.pkl", "rb") as arquivo:
                     self.partida_ativa = pickle.load(arquivo)
                 self.executar_jogo()
+            elif opcao == 'p':
+                os.makedirs('./ranking', exist_ok=True)
+                try:
+                    with open(f'./ranking/ranking.txt', 'r') as arquivo:
+                        linhas = arquivo.readlines()
+                        for linha in linhas:
+                            print(linha)
+                except FileNotFoundError:
+                    with open('./ranking/ranking.txt', 'w') as arquivo:
+                        print('Ainda não há pontuações registradas, se esforce mais')
 
+
+
+                
 
     def mostrar_saves(self):
         itens = os.listdir('./saves')
@@ -83,19 +96,47 @@ class Jogo:
                 self.partida_ativa.rotacionar_peca_direita()
 
             elif tecla == 'k':
+                self.atualizar_ranking()
                 running = False
+
             elif tecla == 'g':
                 os.makedirs('./saves', exist_ok=True)
                 data = data_atual()
                 with open(f'./saves/{self.partida_ativa.nome}_{data}.pkl', 'wb') as arquivo:
                     pickle.dump(self.partida_ativa, arquivo)
                 print(txt.texto_ao_salvar)
+
+                self.atualizar_ranking()
                 running = False
 
 
-    
+    def atualizar_ranking(self):
+        os.makedirs('./ranking', exist_ok=True)
+        if not(os.path.exists('./ranking/ranking.txt')):
+            with open(f'./ranking/ranking.txt', 'w') as arquivo:
+                pass
+            
+        with open('./ranking/ranking.txt', 'r') as arquivo:
+            linhas = arquivo.readlines()
+            print(linhas)
+            if len(linhas) < 10:
+                    linhas.append(f"{self.partida_ativa.nome} {self.partida_ativa.pontuacao}\n")
+            else:
+                for i, linha in enumerate(linhas):
+                    linha_separada = linha.split()
+                    if self.partida_ativa.pontuacao > int(linha_separada[1]):
+                        linhas[i] = f"{self.partida_ativa.nome} {self.partida_ativa.pontuacao}"
+                        break
+        
+        linhas = sorted(linhas, key=lambda linha: int(linha.strip().split()[1]), reverse=True)
+                
+        with open(f'./ranking/ranking.txt', 'w') as arquivo: 
+            arquivo.writelines(linhas)
+            
+
     def sair(self):
-        pass
+        print(txt.despedida)
+        sys.exit()
 
 
 if __name__ == "__main__":
