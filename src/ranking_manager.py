@@ -9,18 +9,18 @@ def atualizar_ranking(nome, pontuacao):
             
     with open('./ranking/ranking.txt', 'r') as arquivo:
         linhas = arquivo.readlines()
-        # print(linhas)
-        if len(linhas) < 10:
+        linhas.reverse()
+        print(linhas)
+        if len(linhas) < 5:
                 linhas.append(f"{nome} {pontuacao}\n")
         else:
-            for i, linha in enumerate(linhas):
+            for i, linha in enumerate(linhas[:-1]):
                 linha_separada = linha.split()
                 if pontuacao > int(linha_separada[1]):
-                    linhas[i] = f"{nome} {pontuacao}"
+                    linhas[i] = f"{nome} {pontuacao}\n"
                     break
         
     linhas = sorted(linhas, key=lambda linha: int(linha.strip().split()[1]), reverse=True)
-                
     with open(f'./ranking/ranking.txt', 'w') as arquivo: 
         arquivo.writelines(linhas)
 
