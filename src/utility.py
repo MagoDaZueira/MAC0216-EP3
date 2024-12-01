@@ -5,6 +5,7 @@ Contém algumas funções genéricas que auxiliam o resto do programa.
 """
 
 from datetime import datetime
+import os
 
 
 def input_int(prompt: str, low: int = None, up: int = None) -> int:
@@ -71,3 +72,10 @@ def data_atual():
 
     # Formatar a data e hora no formato desejado
     return data.strftime("%d-%m-%Y_%Hh%Mm%Ss")
+
+def cria_diretorio(dirname: str):
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    novo_diretorio = os.path.join(script_dir, dirname)
+    os.makedirs(novo_diretorio, exist_ok=True)
+
+    return novo_diretorio

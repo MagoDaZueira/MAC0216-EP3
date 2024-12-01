@@ -1,16 +1,17 @@
 import os
 import textos as txt
+from utility import cria_diretorio
 
 def atualizar_ranking(nome, pontuacao):
-    os.makedirs('./ranking', exist_ok=True)
-    if not(os.path.exists('./ranking/ranking.txt')):
-        with open(f'./ranking/ranking.txt', 'w') as arquivo:
+    path = cria_diretorio('ranking')
+    path = os.path.join(path, 'ranking.txt')
+    if not(os.path.exists(path)):
+        with open(path, 'w') as arquivo:
             pass
             
-    with open('./ranking/ranking.txt', 'r') as arquivo:
+    with open(path, 'r') as arquivo:
         linhas = arquivo.readlines()
         linhas.reverse()
-        print(linhas)
         if len(linhas) < 5:
                 linhas.append(f"{nome} {pontuacao}\n")
         else:
@@ -21,14 +22,18 @@ def atualizar_ranking(nome, pontuacao):
                     break
         
     linhas = sorted(linhas, key=lambda linha: int(linha.strip().split()[1]), reverse=True)
-    with open(f'./ranking/ranking.txt', 'w') as arquivo: 
+    with open(path, 'w') as arquivo: 
         arquivo.writelines(linhas)
 
 
 def mostrar_ranking():
-    os.makedirs('./ranking', exist_ok=True)
+    path = cria_diretorio('ranking')
+    path = os.path.join(path, 'ranking.txt')
+    if not(os.path.exists(path)):
+        with open(path, 'w') as arquivo:
+            pass
     try:
-        with open(f'./ranking/ranking.txt', 'r') as arquivo:
+        with open(path, 'r') as arquivo:
             linhas = arquivo.readlines()
             print(txt.ranking)
 
@@ -38,5 +43,5 @@ def mostrar_ranking():
                 i += 1
 
     except FileNotFoundError:
-        with open('./ranking/ranking.txt', 'w') as arquivo:
+        with open(path, 'w') as arquivo:
             print('Ainda não há pontuações registradas, se esforce mais')

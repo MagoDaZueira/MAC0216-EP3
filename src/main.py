@@ -34,7 +34,9 @@ class Jogo:
 
         elif opcao == 'c':
             save_escolhido = save.mostrar_saves()
-            with open(f"./saves/{save_escolhido}.pkl", "rb") as arquivo:
+            path = cria_diretorio('saves')
+            path = os.path.join(path, f'{save_escolhido}.pkl')
+            with open(path, "rb") as arquivo:
                 self.partida_ativa = pickle.load(arquivo)
             self.executar_jogo()
 
@@ -68,6 +70,7 @@ class Jogo:
                 self.partida_ativa.rotacionar_peca_direita()
 
             elif tecla == 'k':
+                rank.atualizar_ranking(self.partida_ativa.nome, self.partida_ativa.pontuacao)
                 break
 
             elif tecla == 'g':

@@ -5,17 +5,19 @@ import os
 
 
 def salvar_partida(partida):
-    os.makedirs('./saves', exist_ok=True)
     data = data_atual()
-    with open(f'./saves/{partida.nome}_{data}.pkl', 'wb') as arquivo:
+    path = cria_diretorio('saves')
+    path = os.path.join(path, f'{partida.nome}_{data}.pkl')
+    with open(path, 'wb') as arquivo:
         pickle.dump(partida, arquivo)
     print(txt.texto_ao_salvar)
 
 
 def mostrar_saves():
-    itens = os.listdir('./saves')
+    path = cria_diretorio('saves')
+    itens = os.listdir(path)
 
-    arquivos = [item for item in itens if os.path.isfile(os.path.join('./saves', item))]
+    arquivos = [item for item in itens if os.path.isfile(os.path.join(path, item))]
 
     print("Escolha o seu save, não desista:")
     for i, arquivo in enumerate(arquivos, start=1):
