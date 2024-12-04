@@ -1,3 +1,9 @@
+##
+# \file main.py
+# \brief Implementação da classe Jogo, e portanto
+#        do loop de gameplay principal.
+##
+
 import textos as txt
 from partida import Partida
 from readchar import readkey, key
@@ -8,14 +14,34 @@ import sys
 import os
 import pickle
 
+##
+# \class Jogo
+# \brief Atributos e métodos relativos ao loop principal do jogo
+#
+# \details Seus métodos incluem mostrar o menu principal
+#          e executar uma partida. Em ambas situações, é
+#          recolhido o input do jogador.
+#          Guarda a partida ativa num atributo.
+#
+# Os métodos envolvem a movimentação e rotação da peça,
+# além da criação de novas peças.
+##
 class Jogo:
 
+    ##
+    # \brief Construtor da classe Jogo
+    ##
     def __init__(self):
         print(txt.intro)
         self.partida_ativa = None
 
-
-    def mostrar_opcoes(self):
+    ##
+    # \brief Mostra o menu principal do jogo, e chama funções que
+    #        realizem o solicitado (iniciar, sair, ranking ou carregar).
+    #
+    # \return Não retorna valores.
+    ##
+    def mostrar_opcoes(self) -> None:
         print(txt.menu_principal)
         opcoes_validas = ['i', 'c', 'p', 's']
         opcao = input_da_lista("Digite a opção desejada: ", opcoes_validas)
@@ -27,7 +53,7 @@ class Jogo:
 
             # Inicia a partida
             self.partida_ativa = Partida(nome, linhas, colunas)
-            self.executar_jogo()
+            self.executar_partida()
             
         elif opcao == 's':
             self.sair()
@@ -38,14 +64,18 @@ class Jogo:
             path = os.path.join(path, f'{save_escolhido}.pkl')
             with open(path, "rb") as arquivo:
                 self.partida_ativa = pickle.load(arquivo)
-            self.executar_jogo()
+            self.executar_partida()
 
         elif opcao == 'p':
             rank.mostrar_ranking()
                 
-    
-    def executar_jogo(self):
-        """Contém o loop principal do jogo."""
+
+    ##
+    # \brief Contém o loop principal da partida.
+    #
+    # \return Não retorna valores.
+    ##
+    def executar_partida(self):
 
         # Mostra a tela ao iniciar o jogo
         self.partida_ativa.mostrar_tela()
@@ -69,23 +99,35 @@ class Jogo:
             elif tecla == key.RIGHT:
                 self.partida_ativa.rotacionar_peca_direita()
 
+            # Sair sem salvar
             elif tecla == 'k':
                 break
-
+            
+            # Sair salvando
             elif tecla == 'g':
                 save.salvar_partida(self.partida_ativa)
                 break
-
+        
+        # Caso a partida tenha acabado, atualiza ranking
         if self.partida_ativa.game_over:
             rank.atualizar_ranking(self.partida_ativa.nome, self.partida_ativa.pontuacao)
             
-
+    ##
+    # \brief Finaliza o programa.
+    #
+    # \return Não retorna valores.
+    ##
     def sair(self):
         print(txt.despedida)
         sys.exit()
 
 
+# Executado ao rodar o script
 if __name__ == "__main__":
+
+    # Inicia o jogo
     jogo = Jogo()
+
+    # Quando alguma funcionalidade termina, mostra menu novamente
     while True:
         jogo.mostrar_opcoes()

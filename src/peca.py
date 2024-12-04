@@ -1,15 +1,32 @@
+##
+# \file peca.py
+# \brief Implementação da classe Peca.
+##
+
 import random
 
+##
+# \class Peca
+# \brief Contém informações e métodos sobre uma peça no jogo.
+#
+# \details Seus atributos incluem a posição da peça no grid,
+#          o caractere a ser utilizado ao desenhá-la, e uma lista
+#          de seus blocos componentes.
+#
+# Os métodos envolvem a movimentação e rotação da peça,
+# além da criação de novas peças.
+##
 class Peca:
+    ##
+    # \brief Construtor da classe Peca.
+    #
+    # \param blocos Lista de tuplas contendo as posições (x, y) em relação ao centro da peça.
+    # \param x Posição horizontal do centro da peça no grid.
+    # \param y Posição vertical do centro da peça no grid.
+    # \param caractere Símbolo usado para mostrar esta peça na tela.
+    ##
     def __init__(self, blocos: list[tuple], x: int, y: int, caractere: str):
-        """Construtor da classe Peca.
-        
-        - Parâmetros:
-        - - blocos - lista de tuplas contendo as posições (x, y) em relação ao centro da peça.
-        - - x - posição horizontal do centro da peça no grid.
-        - - y - posição vertical do centro da peça no grid.
-        - - caractere - símbolo usado para mostrar esta peça na tela.
-        """
+
         self.blocos = blocos
         self.x = x
         self.y = y
@@ -23,34 +40,34 @@ class Peca:
                                 (-1, 1), (1, 1)]
         
     @staticmethod
+    ##
+    # \brief Escolhe aleatoriamente um dos possíveis tipos de peças,
+    # os quais são subclasses desta classe Peca, e cria essa
+    # peça no topo do tabuleiro.
+    #    
+    # \param centro_x Indica a posição horizontal do grid onde
+    #                 a peça deve surgir.
+    #
+    # \return Um objeto de uma subclasse de Peca
+    ##
     def gerar_peca_aleatoria(centro_x: int):
-        """Escolhe aleatoriamente um dos possíveis tipos de peças,
-        os quais são subclasses desta classe Peca, e cria essa
-        peça no topo do tabuleiro.
-        
-        - Parâmetros:
-        - - centro_x - Indica a posição horizontal do grid onde
-        a peça deve surgir.
 
-        Retorna um objeto da classe Peca
-        """
 
         tipos_de_pecas = [PecaO, PecaI, PecaL, PecaJ, PecaS, PecaZ, PecaT]
         return random.choice(tipos_de_pecas)(centro_x)
     
-    
+
+    ##
+    # \brief Move a peça horizontalmente ou para baixo, caso possível.
+    #
+    # \param dx Deslocamento horizontal desejado.
+    # \param dy Deslocamento vertical desejado.
+    # \param grid Indica quais posições estão ocupadas e quais livres.
+    #             As posições livres devem ser dadas por ' '.
+    #
+    # \return Não retorna valores.
+    ##
     def mover(self, dx: int, dy: int, grid: list[list[str]]) -> None:
-        """Move a peça horizontalmente ou para baixo, caso possível
-        
-        - Parâmetros:
-        - - dx - Desclocamento horizontal desejado.
-        - - dy - Desclocamento vertical desejado.
-        - - grid - Indica quais posições estão ocupadas, e quais livres.
-        As posições livres devem ser dadas por ' '.
-
-        Não retorna valores.
-        """
-
         pode_mover = True
         for bloco in self.blocos:
             # Posições dos blocos no grid
@@ -64,17 +81,15 @@ class Peca:
             self.x += dx
             self.y += dy
 
-    
+    ##
+    # \brief Rotaciona a peça para a direita, caso possível.
+    #
+    # \param grid Indica quais posições estão ocupadas e quais livres.
+    #             As posições livres devem ser dadas por ' '.
+    #
+    # \return Não retorna valores.
+    ##
     def rotacionar_direita(self, grid: list[list[str]]) -> None:
-        """Rotaciona a peça para a direita, caso possível.
-        
-        - Parâmetros:
-        - - grid - Indica quais posições estão ocupadas, e quais livres.
-        As posições livres devem ser dadas por ' '.
-
-        Não retorna valores.
-        """
-
         # Lista com novas posições pela fórmula adequada
         novos_blocos = [(-y, x) for (x, y) in self.blocos]
 
@@ -87,17 +102,16 @@ class Peca:
             self.x += correcao[0]
             self.y += correcao[1]
 
-            
+
+    ##
+    # \brief Rotaciona a peça para a esquerda, caso possível.
+    #
+    # \param grid Indica quais posições estão ocupadas e quais livres.
+    #             As posições livres devem ser dadas por ' '.
+    #
+    # \return Não retorna valores.
+    ##
     def rotacionar_esquerda(self, grid: list[list[str]]) -> None:
-        """Rotaciona a peça para a esquerda, caso possível.
-        
-        - Parâmetros:
-        - - grid - Indica quais posições estão ocupadas, e quais livres.
-        As posições livres devem ser dadas por ' '.
-
-        Não retorna valores.
-        """
-
         # Lista com novas posições pela fórmula adequada
         novos_blocos = [(y, -x) for (x, y) in self.blocos]
 
@@ -110,20 +124,19 @@ class Peca:
             self.x += correcao[0]
             self.y += correcao[1]
 
-    
+    ## 
+    # \brief Testa se a rotação é possível, usando uma lista de offsets
+    # para verificar se, caso a rotação padrão não seja possível,
+    # algum pequeno deslocamento a torna válida.
+    #
+    # \param posicoes As novas posições relativas dos blocos ao pivô, após a rotação base
+    # \param grid Indica quais posições estão ocupadas, e quais livres.
+    #               As posições livres devem ser dadas por ' '.
+    #
+    # \return Uma tupla com um offset que torne a rotação válida, caso possível.
+    #         Caso não exista offset válido, retorna None.
+    ##
     def verificar_rotacao(self, posicoes: list[tuple], grid: list[list[str]]) -> tuple:
-        """Testa se a rotação é possível, usando uma lista de offsets
-        para verificar se, caso a rotação padrão não seja possível,
-        algum pequeno deslocamento a torna válida.
-
-        - Parâmetros:
-        - - posicoes - As novas posições relativas dos blocos ao pivô, após a rotação base
-        - - grid - Indica quais posições estão ocupadas, e quais livres.
-        As posições livres devem ser dadas por ' '.
-
-        Retorna uma tupla com um offset que torne a rotação válida, caso possível
-        Caso não exista offset válido, retorna None.
-        """
 
         for offset in self.offsets_rotacao:
             offset_valido = True
@@ -153,6 +166,7 @@ class Peca:
 
 ##########################################################
 ################### SUBCLASSES DE PEÇA ###################
+##########################################################
 
 class PecaO(Peca):
     def __init__(self, pos_x):
@@ -172,6 +186,8 @@ class PecaI(Peca):
         # A peça I precisa de mais verificações na rotação, muito oblonga
         self.offsets_rotacao.append((-2, 0))
         self.offsets_rotacao.append((2, 0))
+        self.offsets_rotacao.append((0, -2))
+        self.offsets_rotacao.append((0, 2))
         
 class PecaL(Peca):
     def __init__(self, pos_x):

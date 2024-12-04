@@ -2,7 +2,7 @@ import os
 import textos as txt
 from utility import cria_diretorio
 
-def atualizar_ranking(nome, pontuacao):
+def atualizar_ranking(nome: str, pontuacao: int) -> None:
     path = cria_diretorio('ranking')
     path = os.path.join(path, 'ranking.txt')
     if not(os.path.exists(path)):
@@ -26,7 +26,7 @@ def atualizar_ranking(nome, pontuacao):
         arquivo.writelines(linhas)
 
 
-def mostrar_ranking():
+def mostrar_ranking() -> None:
     path = cria_diretorio('ranking')
     path = os.path.join(path, 'ranking.txt')
     if not(os.path.exists(path)):

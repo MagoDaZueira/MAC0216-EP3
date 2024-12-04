@@ -1,10 +1,22 @@
+##
+# \file save_manager.py
+# \brief Contém funções relativas ao salvamento do jogo
+##
+
 import textos as txt
 from utility import *
 import pickle
 import os
 
-
-def salvar_partida(partida):
+##
+# \brief Salva uma partida num .pkl utilizando Pickle
+#
+# \param partida Objeto a ser salvado,
+#                deve ser da classe Partida
+#
+# \return Não retorna valores.
+##
+def salvar_partida(partida) -> None:
     data = data_atual()
     path = cria_diretorio('saves')
     path = os.path.join(path, f'{partida.nome}_{data}.pkl')
@@ -12,8 +24,13 @@ def salvar_partida(partida):
         pickle.dump(partida, arquivo)
     print(txt.texto_ao_salvar)
 
-
-def mostrar_saves():
+##
+# \brief Lista as partidas salvas no diretório saves,
+#        e permite que o jogador escolha uma delas.
+#
+# \return Retorna o nome do arquivo selecionado, sem .pkl no fim.
+##
+def mostrar_saves() -> str:
     path = cria_diretorio('saves')
     itens = os.listdir(path)
 

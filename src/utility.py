@@ -1,8 +1,7 @@
-"""@package docstring
-Módulo utilitário
- 
-Contém algumas funções genéricas que auxiliam o resto do programa.
-"""
+##
+# \file utility.py
+# \brief Contém funções genéricas que auxiliam o resto do programa.
+##
 
 from datetime import datetime
 import os
