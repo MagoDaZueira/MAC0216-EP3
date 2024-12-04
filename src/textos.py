@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 
+##
+# \file textos.py
+# \brief Textos utilizados na interação no terminal
+##
+
 intro = """
 ████████╗███████╗██╗  ██╗████████╗██████╗ ██╗███████╗
 ╚══██╔══╝██╔════╝╚██ ██╔╝╚══██╔══╝██╔══██╗██║██╔════╝

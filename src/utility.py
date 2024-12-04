@@ -6,18 +6,16 @@
 from datetime import datetime
 import os
 
-
+##
+# \brief Função que pede um input até que o usuário digite um inteiro dentro dos limites especificados.
+#
+# \param prompt Mensagem que pede input ao usuário.
+# \param low Limite inferior para o número. None por padrão.
+# \param up Limite superior para o número. None por padrão.
+#
+# \return Retorna um inteiro, o último valor digitado pelo usuário.
+##
 def input_int(prompt: str, low: int = None, up: int = None) -> int:
-    """Função que pede um input até que o usuário digite um inteiro
-    dentro dos limites especificados.
-
-    - Parâmetro:
-    - - prompt - Mensagem que pede input ao usuário.
-    - - low - Limite inferior para o número. None por padrão.
-    - - up - Limite superior para o número. None por padrão.
-
-    Retorna um inteiro, o último valor digitado pelo usuário"""
-
     while True:
         valor = input(prompt)
         valido = True
@@ -44,21 +42,19 @@ def input_int(prompt: str, low: int = None, up: int = None) -> int:
                 else:
                     print(f'Valor inválido. Digite um número entre {low} e {up}.')
 
-                    
         except ValueError:
             # Caso não seja um número
             print("Valor inválido. Digite um número inteiro.")
 
-
+##
+# \brief Função que pede um input até que o usuário digite um valor válido.
+#
+# \param prompt Mensagem que pede input ao usuário.
+# \param lista Contém os valores válidos.
+#
+# \return Retorna o último valor válido digitado pelo usuário.
+##
 def input_da_lista(prompt: str, lista: list) -> any:
-    """Função que pede um input até que o usuário digite um valor válido.
-
-    - Parâmetros:
-    - - prompt - mensagem que pede input ao usuário
-    - - lista - contém os valores válidos
-
-    Retorna o último valor válido digitado pelo usuário"""
-
     while True:
         valor = input(prompt)
         if valor in lista:
@@ -66,13 +62,25 @@ def input_da_lista(prompt: str, lista: list) -> any:
         else:
             print("Valor inválido. Tente novamente.")
 
-def data_atual():
+##
+# \brief Recolhe a data atual e a formata adequadamente.
+# \return A data atual, num formato específico, em string.
+##
+def data_atual() -> str:
     data = datetime.now()
 
     # Formatar a data e hora no formato desejado
     return data.strftime("%d-%m-%Y_%Hh%Mm%Ss")
 
-def cria_diretorio(dirname: str):
+##
+# \brief Cria um novo diretório no caminho onde o script está localizado,
+#        caso não exista um de mesmo nome.
+#
+# \param dirname Nome do diretório a ser criado.
+#
+# \return Retorna o caminho absoluto do diretório criado.
+##
+def cria_diretorio(dirname: str) -> str:
     script_dir = os.path.dirname(os.path.abspath(__file__))
     novo_diretorio = os.path.join(script_dir, dirname)
     os.makedirs(novo_diretorio, exist_ok=True)

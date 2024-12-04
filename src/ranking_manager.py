@@ -1,3 +1,8 @@
+##
+# \file ranking_manager.py
+# \brief Contém funções de gerenciamento do ranking de pontuações.
+##
+
 import os
 import textos as txt
 from utility import cria_diretorio
