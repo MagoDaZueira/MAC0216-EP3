@@ -1,12 +1,11 @@
 import os
 import sys
 import io
-import textos as txt
 from ranking_manager import *
 
 class TestRanking:
 
-    def test_atualizar_ranking(): #Assume que o diretorio ranking não existe
+    def test_atualizar_ranking(self): #Assume que o diretorio ranking não existe
         script_dir = os.path.dirname(os.path.abspath(__file__))
         ranking_dir = os.path.join(script_dir, "ranking")
         path = os.path.join(ranking_dir, "ranking.txt")
@@ -31,7 +30,7 @@ class TestRanking:
 
         assert conteudo_ranking == resultado_esperado
 
-    def test_mostrar_ranking():
+    def test_mostrar_ranking(self):
         script_dir = os.path.dirname(os.path.abspath(__file__))
         ranking_dir = os.path.join(script_dir, "ranking")
         path = os.path.join(ranking_dir, "ranking.txt")
