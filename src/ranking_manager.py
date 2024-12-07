@@ -17,16 +17,16 @@ def atualizar_ranking(nome: str, pontuacao: int) -> None:
     with open(path, 'r') as arquivo:
         linhas = arquivo.readlines()
         linhas.reverse()
-        if len(linhas) < 5:
+        if len(linhas) < 10:
                 linhas.append(f"{nome} {pontuacao}\n")
         else:
             for i, linha in enumerate(linhas[:-1]):
                 linha_separada = linha.split()
-                if pontuacao > int(linha_separada[1]):
+                if pontuacao > int(linha_separada[-1]):
                     linhas[i] = f"{nome} {pontuacao}\n"
                     break
         
-    linhas = sorted(linhas, key=lambda linha: int(linha.strip().split()[1]), reverse=True)
+    linhas = sorted(linhas, key=lambda linha: int(linha.strip().split()[-1]), reverse=True)
     with open(path, 'w') as arquivo: 
         arquivo.writelines(linhas)
 
