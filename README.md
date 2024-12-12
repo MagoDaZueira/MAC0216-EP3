@@ -11,7 +11,7 @@
 
 ## Como instalar e utilizar
 Para a utilização da geração de documentação e testes automatizados, é preciso ter instalado o make e doxygen. Se estiver usando linux em distribuições baseadas em Debian/Ubuntu, execute:
-````bash
+```bash
 sudo apt install make
 sudo apt install doxygen
 ```
