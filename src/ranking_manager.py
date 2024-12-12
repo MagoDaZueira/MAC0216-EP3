@@ -7,6 +7,12 @@ import os
 import textos as txt
 from utility import cria_diretorio
 
+##
+# \brief Atualiza o ranking de melhores pontuações quando a partida é perdida
+#
+# \return Não retorna valores
+##
+
 def atualizar_ranking(nome: str, pontuacao: int) -> None:
     path = cria_diretorio('ranking')
     path = os.path.join(path, 'ranking.txt')
@@ -30,6 +36,11 @@ def atualizar_ranking(nome: str, pontuacao: int) -> None:
     with open(path, 'w') as arquivo: 
         arquivo.writelines(linhas)
 
+##
+# \brief Exibe o ranking com as 10 melhores pontuações na tela
+#
+# \return Não retorna valores
+##
 
 def mostrar_ranking() -> None:
     path = cria_diretorio('ranking')

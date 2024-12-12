@@ -12,7 +12,7 @@ class TestUtility:
     def test_cria_diretorio(self):
         cria_diretorio('meu_diretorio_do_ep3')
         diretorio_criado = os.path.isdir('meu_diretorio_do_ep3')
-        os.remove("meu_diretorio_do_ep3")
+        os.remove('meu_diretorio_do_ep3')
         
         assert diretorio_criado == True
 
