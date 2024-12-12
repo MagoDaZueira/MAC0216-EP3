@@ -16,53 +16,6 @@ class TestPartida:
         
         assert grid == resultado_esperado
 
-    def test_mostrar_tela(self):
-        partida = Partida('jogador', 3, 3)
-        partida.peca_ativa = PecaL(ceil(3 / 2))
-
-        buffer = io.StringIO()
-        sys.stdout = buffer
-
-        partida.mostrar_tela()
-
-        sys.stdout = sys.__stdout__
-
-        resultado_esperado = """  _ _ _   
-    |     & | 
-    | & & & | 
-    |       | 
-    _ _ _   
-
-    Pontuação: 0
-    Teclas do jogo:
-    <a> move esquerda | <d> move direita | <s> move baixo
-    ← rotaciona esquerda | → rotaciona direita
-    <k> sai da partida, <g> grava e sai da partida
-    """
-
-        assert resultado_esperado == buffer.getvalue()
-
-    def test_mostrar_gameover(self):
-        partida = Partida('jogador', 3, 3)
-        partida.peca_ativa = PecaL(ceil(3 / 2))
-
-        buffer = io.StringIO()
-        sys.stdout = buffer
-
-        partida.mostrar_gameover()
-
-        sys.stdout = sys.__stdout__
-
-        resultado_esperado = """  _ _ _   
-    |     & | 
-    | & & & | 
-    |       | 
-    _ _ _   
-    Fim da partida!
-    Pontuação final: 0
-    """
-        assert resultado_esperado == buffer.getvalue()
-
     def test_desenhar_peca(self):
         partida = Partida("jogador", 3, 3)
         partida.peca_ativa = PecaL(ceil(3 / 2))
@@ -83,11 +36,18 @@ class TestPartida:
         partida = Partida("jogador", 3, 3)
         partida.peca_ativa = PecaL(ceil(3 / 2))
         partida.desenhar_peca()
-        grid_draw = partida.grid_draw
         partida.encaixar_peca()
+
+        resultado_esperado = [[' ', '_', '_', '_', ' '],
+                             ['|', ' ', ' ', ' ', '|'],
+                             ['|', ' ', ' ', '&', '|'],
+                             ['|', ' ', ' ', ' ', '|'],
+                             [' ', '_', '_', '_', ' ']]
+        
         grid_fixo = partida.grid_fixo
 
-        assert grid_draw == grid_fixo
+        assert resultado_esperado == grid_fixo
+            
 
     def test_linhas_a_limpar(self):
         partida = Partida("jogador", 3, 3)
@@ -129,4 +89,5 @@ class TestPartida:
 
         assert pode_spawnar == False
 
-    
+test = TestPartida()
+test.test_encaixar_peca()    

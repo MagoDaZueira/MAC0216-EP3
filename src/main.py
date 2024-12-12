@@ -63,7 +63,7 @@ class Jogo:
             path = cria_diretorio('saves')
             path = os.path.join(path, f'{save_escolhido}.pkl')
             with open(path, "rb") as arquivo:
-                self.partida_ativa = pickle.load(arquivo)
+                self.partida_ativa = save.carregar_partida(arquivo) 
             self.executar_partida()
 
         elif opcao == 'p':

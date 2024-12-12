@@ -43,3 +43,6 @@ def mostrar_saves() -> str:
     while True:
         i = input_int("Digite o número do save desejado: ", 1, len(arquivos))
         return arquivos[i-1][:-4]
+    
+def carregar_partida(arquivo):
+    return pickle.load(arquivo)
