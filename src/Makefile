@@ -4,13 +4,16 @@
 all: tests doc
 
 # Alvo para a documentação
-
 doc: 
 	doxygen Doxyfile
 
 # Alvo para rodar os testes
 tests:
 	python3 -m pytest partida_test.py peca_test.py ranking_test.py
+
+# Alvo para as dependências
+requirements:
+	pip install pytest readchar 
 
 # Alvo para limpar arquivos intermediários
 clean:
