@@ -1,9 +1,12 @@
 # Makefile
 
 # Alvo principal que executa todos os processos
-all: tests
+all: tests doc
 
+# Alvo para a documentação
 
+doc: 
+	doxygen Doxyfile
 
 # Alvo para rodar os testes
 tests:
