@@ -1,10 +1,28 @@
+##
+# \file ranking_test.py
+# \brief Implementação dos testes para o gerenciamento do ranking.
+##
+
 import os
 import sys
 import io
 from ranking_manager import *
 
+##
+# \class TestRanking
+# \brief Contém testes destinados a validar o funcionamento do sistema de ranking.
+# 
+# \details Este teste verifica se o método de atualização do ranking está funcionando corretamente.
+#          O método `atualizar_ranking` é chamado com diferentes jogadores e pontuações e verifica-se
+#          se o arquivo de ranking é atualizado corretamente.
+##
 class TestRanking:
 
+    ##
+    # \brief Testa o método atualizar_ranking
+    #
+    # \return Não retorna valores. Realiza uma asserção sobre o conteúdo do arquivo de ranking.
+    ##
     def test_atualizar_ranking(self): #Assume que o diretorio ranking não existe
         script_dir = os.path.dirname(os.path.abspath(__file__))
         ranking_dir = os.path.join(script_dir, "ranking")
@@ -30,40 +48,5 @@ class TestRanking:
 
         assert conteudo_ranking == resultado_esperado
 
-    """def test_mostrar_ranking(self):
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        ranking_dir = os.path.join(script_dir, "ranking")
-        path = os.path.join(ranking_dir, "ranking.txt")
-
-        if not(os.path.isdir(ranking_dir)):
-            os.mkdir(ranking_dir)
-
-        with open(path, 'w') as arquivo:
-            arquivo.writelines(['um 10\n', 'dois 6\n', 'tres tres 3\n' ])
-        
-
-        buffer = io.StringIO()
-        #sys.stdout = buffer
-        mostrar_ranking()
-        sys.stdout = sys.__stdout__
-
-        resultado_esperado = """"""
-    ---------------------------------------------------------
-    ----------------- 10 MELHORES PONTUAÇÕES ----------------
-    ---------------------------------------------------------
-
-    1) um 10
-
-    2) dois 6
-
-    3) tres tres 3
-"""
-    """
-
-        os.remove(path)
-        os.rmdir(ranking_dir)
-
-        if buffer.getvalue() == resultado_esperado:
-            print("igual")"""
     
 

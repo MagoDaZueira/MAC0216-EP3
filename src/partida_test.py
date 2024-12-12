@@ -1,5 +1,5 @@
 ##
-# \file partida_teste.py
+# \file partida_test.py
 # \brief Implementação da classe TestPartida.
 ##
 
