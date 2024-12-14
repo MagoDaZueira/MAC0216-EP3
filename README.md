@@ -24,7 +24,7 @@ Para a classe Peca, foi implementada uma classe TestPeca, que verifica o movimen
 Além disso, foi implementado um teste para a impressão de pontuações no arquivo do ranking, através da classe TestRanking.
 
 ## Como Executar
-Para executar o programa, pode-se navegar até a parta ```src``` e executar o programa ```main.py```, através do comando:
+Para executar o programa, pode-se navegar até a pasta ```src``` e executar o programa ```main.py```, através do comando:
 ```python
 python main.py
 ```
