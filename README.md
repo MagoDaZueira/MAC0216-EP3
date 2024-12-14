@@ -24,7 +24,15 @@ Para a classe Peca, foi implementada uma classe TestPeca, que verifica o movimen
 Além disso, foi implementado um teste para a impressão de pontuações no arquivo do ranking, através da classe TestRanking.
 
 ## Como Executar
-Para executar o programa, pode-se diretamente executar o programa ```main.py```. Para a execução dos testes e geração da documentação com o Doxygen, basta executar no terminal:
+Para executar o programa, pode-se diretamente executar o programa ```main.py```, através do comando:
+```python
+python main.py
+```
+Ou:
+```python
+python3 main.py
+```
+Para a execução dos testes e geração da documentação com o Doxygen, basta executar no terminal:
  ```bash
  make all
  ```
@@ -54,6 +62,14 @@ pip install pytest readchar
 Ou, se preferir, utilizar:
 ```bash
 make requirements
+```
+O programa foi testado em Windows/WSL e MacOS, utilizando a versão 3.10.12, 3.11 e 3.12.8. É necessário usar a versão 3.9 ou superior, devido à falta de suporte à sintaxe usada em alguns trechos do código em versões anteriores. Para verificar a versão do python utilizada, basta inserir o comando:
+```python
+python --version
+```
+Ou:
+```python
+python3 --version
 ```
 
 
